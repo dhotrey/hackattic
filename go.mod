@@ -2,7 +2,10 @@ module hackattic
 
 go 1.21.5
 
-require github.com/charmbracelet/log v0.3.1
+require (
+	github.com/charmbracelet/log v0.3.1
+	github.com/lib/pq v1.10.9
+)
 
 require (
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
