@@ -12,12 +12,14 @@ name = "basic-face-detection"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "numpy" },
     { name = "opencv-python" },
     { name = "requests" },
 ]
 
 [package.metadata]
 requires-dist = [
+    { name = "numpy", specifier = ">=2.2.4" },
     { name = "opencv-python", specifier = ">=4.11.0.86" },
     { name = "requests", specifier = ">=2.32.3" },
 ]
