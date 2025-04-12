@@ -44,7 +44,7 @@ def main():
     warm_up_event = {"eventType": "warmup"}
     for region in REGIONS:
         resp, timetaken = trigger(warm_up_event, region)
-        print(f"Wamed up hackattic lambda in {region} in {timetaken}s")
+        print(f"Warmed up hackattic lambda in {region} in {timetaken}s")
         print(json.loads(resp["Payload"].read()))
 
     print("warmed up all lambda functions sucessfully!")
