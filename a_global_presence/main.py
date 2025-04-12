@@ -1,5 +1,21 @@
 import boto3
 import requests
+from deploy import REGIONS
+import json
+import time
+
+
+def trigger(event, region):
+    t1 = time.time()
+    client = boto3.client("lambda", region_name=region)
+    response = client.invoke(
+        FunctionName="hackattic",
+        InvocationType="RequestResponse",
+        Payload=json.dumps(event),
+    )
+    t2 = time.time()
+    ttaken = t2 - t1
+    return response, ttaken
 
 
 def send_solution():
@@ -18,38 +34,35 @@ def send_solution():
     print("Got response: ", response.text)
 
 
-def warmup(regions):
-    for region in regions:
-        print("Warming up region: ", region)
-        lambda_client = boto3.client("lambda", region_name=region)
-        response = lambda_client.invoke(
-            FunctionName="rd_ad_test",
-            InvocationType="RequestResponse",
-            Payload='{"warmup": true}',
-        )
-        print(f"Got response {}")
-
-    print("Warmup complete.")
-
-
 def main():
     print("Hello from a-global-presence!")
-
-    regions = [
-        "us-east-1",
-        "ap-south-1",
-        "ap-northeast-3",
-        "ap-northeast-2",
-        "ap-northeast-1",
-        "ap-southeast-1",
-        "ap-southeast-2",
-    ]
-
     url = "https://hackattic.com/challenges/a_global_presence/problem"
-    querystring = {"access_token": "9e115aa83183d27a"}
+    access_token = ""
+    querystring = {"access_token": access_token}
+
+    print("Warming up lambda functions")
+    warm_up_event = {"eventType": "warmup"}
+    for region in REGIONS:
+        resp, timetaken = trigger(warm_up_event, region)
+        print(f"Wamed up hackattic lambda in {region} in {timetaken}s")
+        print(json.loads(resp["Payload"].read()))
+
+    print("warmed up all lambda functions sucessfully!")
     response = requests.request("GET", url, params=querystring)
-    presense_token = response.json().get("presence_token")
-    print("Got presence token: ", presense_token)
+    presence_token = response.json().get("presence_token")
+    start_time = time.time()
+    print("Got presence token: ", presence_token)
+
+    actual_event = {"eventType": "hack", "presence_token": presence_token}
+
+    for region in REGIONS:
+        resp, timetaken = trigger(actual_event, region)
+        print(f"Triggered {region} lambda ")
+
+    print("sending solution")
+    send_solution()
+    end_time = time.time()
+    print(f"Time elapsed aftert requesting presense token {end_time-start_time}")
 
 
 if __name__ == "__main__":
