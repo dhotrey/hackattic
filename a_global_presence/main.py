@@ -47,7 +47,7 @@ def main():
         print(f"Warmed up hackattic lambda in {region} in {timetaken}s")
         print(json.loads(resp["Payload"].read()))
 
-    print("warmed up all lambda functions sucessfully!")
+    print("warmed up all lambda functions successfully!")
     response = requests.request("GET", url, params=querystring)
     presence_token = response.json().get("presence_token")
     start_time = time.time()
