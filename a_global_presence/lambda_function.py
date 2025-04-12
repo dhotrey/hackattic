@@ -14,7 +14,7 @@ def lambda_handler(event, context):
 
     elif event["eventType"] == "hack":
         conn = http.client.HTTPSConnection("hackattic.com")
-        conn.request("GET", f"/_/presence/{event["presence_token"]}")
+        conn.request("GET", f"/_/presence/{event['presence_token']}")
         res = conn.getresponse()
         data = res.read()
         resp = data.decode("utf-8")
