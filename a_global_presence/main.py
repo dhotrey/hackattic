@@ -62,7 +62,7 @@ def main():
     print("sending solution")
     send_solution()
     end_time = time.time()
-    print(f"Time elapsed aftert requesting presense token {end_time-start_time}")
+    print(f"Time elapsed after requesting presence token {end_time-start_time}")
 
 
 if __name__ == "__main__":
