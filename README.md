@@ -1,4 +1,4 @@
 
 Solutions to hackattic.
 
-Find me on hackattic at @[theredditbandit](https://hackattic.com/u/theredditbandit)
+Find me on hackattic at @[dhotrey](https://hackattic.com/u/dhotrey)
